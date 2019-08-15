@@ -1,0 +1,75 @@
+{% extends "app/base_site.html" %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Create New </h2>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <br />
+              <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+                <div class="container form-group">
+                  <div class="row">
+                    <div class="col-sm-3">
+                       <label class="control-label col-md-2 col-sm-3 col-xs-12" for="dcn-no">DCN No. <span class="required">*</span>
+                      </label>
+                    </div>
+                    <div class="col-sm-3">
+                       <input type="text" id="dcn-no" required="required" class="form-control col-md-7 col-xs-12">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-*-*">
+                  <label class="control-label col-md-2 col-sm-3 col-xs-12" for="sap-change-no">SAP Change No. <span class="required">*</span>
+                  </label>
+                    </div>
+                    <div class="col-*-*">
+                      <input type="text" id="sap-change-no" required="required" class="form-control col-md-7 col-xs-12">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-*-*"><label class="control-label col-md-2 col-sm-3 col-xs-12" for="segment">Segment <span class="required">*</span>
+                  </label></div>
+                    <div class="col-*-*"><input type="text" id="segment" required="required" class="form-control col-md-7 col-xs-12"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-*-*"><label class="control-label col-md-2 col-sm-3 col-xs-12" for="model">Model <span class="required">*</span>
+                  </label></div>
+                    <div class="col-*-*"><input type="text" id="model" required="required" class="form-control col-md-7 col-xs-12"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-*-*"></div>
+                    <div class="col-*-*"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-*-*"></div>
+                    <div class="col-*-*"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-*-*"></div>
+                    <div class="col-*-*"></div>
+                    <div class="col-*-*"></div>
+                  </div>
+                  <div class="row">
+                    ...
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+{% endblock content %}
