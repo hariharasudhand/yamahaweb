@@ -4,7 +4,7 @@
   <div class="right_col" role="main">
     <div class="">
       <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-12">
           <div class="x_panel">
             <div class="x_title">
               <h2>Create New </h2>
@@ -12,46 +12,61 @@
             </div>
             <div class="x_content">
               <br />
-              <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-
+              <form action="workflow_config.html" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                {% csrf_token %}
                 <div class="form-group">
-                  <label class="control-label col-md-2 col-sm-3 col-xs-12" for="dcn-no">DCN No. <span class="required">*</span>
+                  <label class="control-label col-md-2" for="dcn-no">DCN No. <span class="required">*</span>
                   </label>
-                  <div class="col-md-3 col-sm-3 col-xs-12">
-                    <input type="text" id="dcn-no" required="required" class="form-control col-md-7 col-xs-12">
+                  <div class="col-md-3">
+                    <input type="text" id="dcn-no" required="required" class="form-control col-md-7">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-md-2 col-sm-3 col-xs-12" for="sap-change-no">SAP Change No. <span class="required">*</span>
+                  <label class="control-label col-md-2" for="sap-change-no">SAP Change No. <span class="required">*</span>
                   </label>
-                  <div class="col-md-3 col-sm-3 col-xs-12">
+                  <div class="col-md-3">
                     <input type="text" id="sap-change-no" required="required" class="form-control col-md-7 col-xs-12">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-md-2 col-sm-3 col-xs-12" for="segment">Segment <span class="required">*</span>
+                  <label class="control-label col-md-2" for="segment">Segment <span class="required">*</span>
                   </label>
-                  <div class="col-md-3 col-sm-3 col-xs-12">
+                  <div class="col-md-3">
                     <input type="text" id="segment" required="required" class="form-control col-md-7 col-xs-12">
+                  </div>
+                  <label class="control-label col-md-3" for="dcn-received-date">DCN Received Date <span class="required">*</span>
+                  </label>
+                  <div class="col-md-3">
+                    <input type="text" id="dcn-received-date" required="required" class="form-control col-md-7">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-md-2 col-sm-3 col-xs-12" for="model">Model <span class="required">*</span>
                   </label>
-                  <div class="col-md-3 col-sm-3 col-xs-12">
+                  <div class="col-md-3">
                     <input type="text" id="model" required="required" class="form-control col-md-7 col-xs-12">
+                  </div>
+                  <label class="control-label col-md-3" for="execute-type">Execute Type <span class="required">*</span>
+                  </label>
+                  <div class="col-md-3">
+                    <input type="text" id="execute-type" required="required" class="form-control col-md-7">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-md-2 col-sm-3 col-xs-12">DCN Type <span class="required">*</span>
+                  <label class="control-label col-md-2">DCN Type <span class="required">*</span>
                   </label>
-                  <div class="checkbox col-md-3 col-sm-3 col-xs-12">
+                  <div class="checkbox col-md-3">
                     <label><input type="checkbox" value="">YOJ</label>
                     <label><input type="checkbox" value="">INT</label>
                   </div>
+                  <label class="control-label col-md-3" for="dcn-title">DCN Title <span class="required">*</span>
+                  </label>
+                  <div class="col-md-3">
+                    <input type="text" id="dcn-title" required="required" class="form-control col-md-7">
+                  </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Effective Type
+                  <label class="control-label col-md-3">Effective Type
                 </div>
                 <div class="form-group">
                   <div class="checkbox col-md-6">
@@ -61,6 +76,133 @@
                     <label><input type="checkbox" value="">Inprogress of MP</label>
                   </div>
                 </div>
+                <div class="container">
+                  <table id="dynRows" class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th rowspan="2">Parent Part No</th>
+                        <th colspan="2">Part No</th>
+                        <th colspan="2">part Description</th>
+                        <th colspan="2">Usage Qty</th>
+                        <th colspan="3">Stock Details</th>
+                        <th rowspan="2">Remarks</th>
+                        <th rowspan="2">Impl Date</th>
+                        <th rowspan="2">Impl Serial No</th>
+                      </tr>
+                      <tr>
+                        <th>Old</th>
+                        <th>New</th>
+                        <th>Old</th>
+                        <th>New</th>
+                        <th>Old</th>
+                        <th>New</th>
+                        <th>On Hand Stock</th>
+                        <th>Open PO</th>
+                        <th>Total Stock</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><input type="text" style="width:100%;"></td>
+                        <td><button type="button" id="minusrows" name="minusrows"><span class="glyphicon glyphicon-minus"></span></button></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                  <div class="col-md-12 text-right">
+                    <button type="button" id="addrows" name="addrows"><span class="glyphicon glyphicon-plus"></span></button>
+                  </div>
+                </div>
+                <!--<div class="form-group">
+                  <label class="control-label col-md-1" style="background-color:lavender;">Parent Part No
+                  </label>
+                  <label class="control-label col-md-2" style="background-color:lightcyan;">Part No
+                  </label>
+                  <label class="control-label col-md-2" style="background-color:lavender;">Part Description
+                  </label>
+                  <label class="control-label col-md-2" style="background-color:lightcyan;">Usage Qty
+                  </label>
+                  <label class="control-label col-md-3" style="background-color:lavender;">Stock Details
+                  </label>
+                  <label class="control-label col-md-1" style="background-color:lightcyan;">Impl Date
+                  </label>
+                  <label class="control-label col-md-1" style="background-color:lavender;">Impl Serial No.
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-1" style="background-color:lavender;">
+                  </label>
+                  <label class="control-label col-md-1" style="background-color:lightcyan;">Old
+                  </label>
+                  <label class="control-label col-md-1" style="background-color:lightcyan;">New
+                  </label>
+                  <label class="control-label col-md-1" style="background-color:lavender;">Old
+                  </label>
+                  <label class="control-label col-md-1" style="background-color:lavender;">New
+                  </label>
+                  <label class="control-label col-md-1" style="background-color:lightcyan;">Old
+                  </label>
+                  <label class="control-label col-md-1" style="background-color:lightcyan;">New
+                  </label>
+                  <label class="control-label col-md-1" style="background-color:lavender;">On Hand Stock
+                  </label>
+                  <label class="control-label col-md-1" style="background-color:lavender;">Open PO
+                  </label>
+                  <label class="control-label col-md-1" style="background-color:lavender;">Total Stock
+                  </label>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-1">
+                    <input type="text" id="parent-part-no" required="required" class="form-control col-md-7">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" id="part-no-old" required="required" class="form-control col-md-7">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" id="part-no-new" required="required" class="form-control col-md-7">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" id="part-desc-old" required="required" class="form-control col-md-7">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" id="part-no-new" required="required" class="form-control col-md-7">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" id="usage-qty-old" required="required" class="form-control col-md-7">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" id="usage-qty-new" required="required" class="form-control col-md-7">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" id="on-hand-stock" required="required" class="form-control col-md-7">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" id="open-po" required="required" class="form-control col-md-7">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" id="total-stock" required="required" class="form-control col-md-7">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" id="impl-date" required="required" class="form-control col-md-7">
+                  </div>
+                  <div class="col-md-1">
+                    <input type="text" id="impl-serial-no" required="required" class="form-control col-md-7">
+                  </div>
+                </div>-->
                 <!--<div class="form-group">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Last Name <span class="required">*</span>
                   </label>
@@ -99,7 +241,7 @@
                   <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
                     <button class="btn btn-primary" type="button">Cancel</button>
                     <button class="btn btn-primary" type="reset">Reset</button>
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="submit" class="btn btn-success">Next</button>
                   </div>
                 </div>
 

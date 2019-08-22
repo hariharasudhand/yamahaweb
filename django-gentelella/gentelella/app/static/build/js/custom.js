@@ -6,6 +6,10 @@
  *     // code here
  * });
  */
+
+
+
+
 (function($, sr) {
     // debouncing function from John Hann
     // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
@@ -5119,5 +5123,39 @@ $(document).ready(function() {
     init_CustomNotification();
     init_autosize();
     init_autocomplete();
+
+});
+
+/* my funtions */
+/* Add Row */
+let rowIndex = 0;
+
+$("#addrows").click(function () {
+
+
+  $('#dynRows').append("<tr>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                        "<td><input type=\"text\" style=\"width:100%;\"></td>"+
+                         "<td><button type=\"button\" id=\"minusrows\" name=\"minusrows\"><span class=\"glyphicon glyphicon-minus\"></span></button></td>"+
+                      "</tr>");
+
+});
+
+$("#minusrows").click(function () {
+
+var inx = $("#minusrows").index(this);
+alert(inx);
+        $('tr').eq(inx+1).remove();
 
 });
