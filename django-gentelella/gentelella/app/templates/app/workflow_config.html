@@ -9,6 +9,7 @@
   <link href="/static/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
   <link href="/static/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
   <link href="/static/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
 {% endblock stylesheets %}
 
 {% block content %}
@@ -31,7 +32,8 @@
       <div class="row">
 
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <form action="form_wizards.html" method="post" class="x_panel">
+          <form action="form_wizards.html" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+            {% csrf_token %}
             <div class="x_title">
               <h2>DCN Workflow Config </h2>
               <ul class="nav navbar-right panel_toolbox">
@@ -43,11 +45,14 @@
             <div class="x_content">
               <p class="text-muted font-13 m-b-30">
                 <!--The Buttons extension for DataTables provides a common set of options, API methods and styling to display buttons on a page that will interact with a DataTable. The core library provides the based framework upon which plug-ins can built.-->
-                Workflow type: <label><input type="radio" value="seq"> Sequencial</label> &nbsp;&nbsp;
-                <label><input type="radio" value="par"> Parallel</label>
+                <div class="row">
+                <div class="btn-group-horizontal">
+                  <label>Workflow type: &nbsp;&nbsp;</label>
+                  <button class="btn btn-default" type="button">Sequencial</button>
+                  <button class="btn btn-default" type="button">Parallel</button>
+                </div>
+              </div>
               </p>
-
-              {% csrf_token %}
                  <table id="datatable-buttons" class="table table-bordered">
                 <thead>
                   <tr>
@@ -63,7 +68,7 @@
                 <tbody>
                   <tr>
                     <td>Engineering</td>
-                    <td><input type="text" id="order" size="3"></td>
+                    <td><input type="text" id="order" size="5" value="1"></td>
                     <td><input type="text" id="deadline1" size="5"></td>
                     <td>
                         <div class="form-group">
@@ -89,7 +94,7 @@
 
                   <tr>
                     <td>Purchase</td>
-                    <td><input type="text" id="order" size="3"></td>
+                    <td><input type="text" id="order" size="5" value="3"></td>
                     <td><input type="text" id="deadline1" size="5"></td>
                     <td>
                       <div class="form-group">
@@ -115,7 +120,7 @@
 
                   <tr>
                     <td>Quality Assurance</td>
-                    <td><input type="text" id="order" size="3"></td>
+                    <td><input type="text" id="order" size="5" value="4"></td>
                     <td><input type="text" id="deadline1" size="5"></td>
                     <td>
                       <div class="form-group">
@@ -138,14 +143,13 @@
                       <input type="text" id="ralert1" size="5">
                     </td>
                   </tr>
-
                   <tr>
-                    <td>Accounts</td>
-                    <td><input type="text" id="order" size="3"></td>
+                    <td>Production</td>
+                    <td><input type="text" id="order" size="5" value="2"></td>
                     <td><input type="text" id="deadline1" size="5"></td>
                     <td>
                       <div class="form-group">
-                        <div class="col-sm-10">
+                    <div class="col-sm-10">
                           <input type="text" class="form-control" data-role="tagsinput" id="tagPlaces">
                         </div>
                       </div>
@@ -164,12 +168,10 @@
                       <input type="text" id="ralert1" size="5">
                     </td>
                   </tr>
-
-
-                </tbody>
+            </tbody>
               </table>
             </div>
-          </form>
+
           </div>
         </div>
         <div class="ln_solid"></div>
@@ -182,6 +184,7 @@
                 </div>
       </div>
     </div>
+  </form>
   </div>
 {% endblock content %}
 
