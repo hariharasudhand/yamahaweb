@@ -21,6 +21,7 @@ urlpatterns = [
 
     # app/ -> Genetelella UI and resources
     url(r'^app/', include('app.urls')),
+    url(r'^users/', include('users.urls')),
     url(r'^', include('app.urls')),
 
 ]
