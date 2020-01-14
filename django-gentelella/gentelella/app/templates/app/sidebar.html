@@ -2,32 +2,33 @@
   <!--<div class="navbar nav_title" style="border: 0;">
     <img src="/static/images/yamaha_purple.svg" width="100" height="210"/>
   </div> -->
-
-
-  <!-- menu profile quick info -->
-  <div class="profile clearfix">
-    <div class="profile_pic">
-
-    </div>
-    <!--<div class="profile_info">
-
-    </div>-->
-  </div>
-  <!-- /menu profile quick info -->
-
-  <br />
-
   <!-- sidebar menu -->
   <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section">
       <h3>Welcome to DCN Portal</h3>
+
+        <!-- menu profile quick info -->
+<div class="profile clearfix">
+  {% if user.is_authenticated %}
+    <div class="profile_pic">
+      <img src="{{ user.profile.image.url }}" alt="..." class="img-circle profile_img">
+    </div>
+    <div class="profile_info">
+      <span>Welcome,</span>
+      <h2>{{ user.username }}</h2>
+    </div>
+  {% endif %}
+</div>
+<!-- /menu profile quick info -->
+
+<br />
       <ul class="nav side-menu">
-        <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-          <ul class="nav child_menu">
-            <li><a href="index.html">Dashboard</a></li>
+        <li><a href="{% url 'index' %}" ><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+<!--          <ul class="nav child_menu">-->
+<!--            <li><a href="index.html">Dashboard</a></li>-->
            <!-- <li><a href="index2.html">Dashboard2</a></li>
             <li><a href="index3.html">Dashboard3</a></li>-->
-          </ul>
+<!--          </ul>-->
         </li>
         <li><a><i class="fa fa-gears"></i> DCN Workflow <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
@@ -86,17 +87,19 @@
             <li><a href="profile.html">Profile</a></li> -->
           </ul>
         </li>
-       <!-- <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
+        {% if user.is_authenticated and user.is_superuser %}
+        <li><a><i class="fa fa-windows"></i> Admin Settings <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
-            <li><a href="page_403.html">403 Error</a></li>
-            <li><a href="page_404.html">404 Error</a></li>
-            <li><a href="page_500.html">500 Error</a></li>
-            <li><a href="plain_page.html">Plain Page</a></li>
-            <li><a href="login.html">Login Page</a></li>
-            <li><a href="pricing_tables.html">Pricing Tables</a></li>
+            <li><a href="{% url 'department' %}">Department</a></li>
+            <li><a href="{% url 'group' %}">Group</a></li>
+            <li><a href="{% url 'grouppermission' %}">Group Permission</a></li>
+<!--            <li><a href="plain_page.html">Plain Page</a></li>-->
+<!--            <li><a href="login.html">Login Page</a></li>-->
+<!--            <li><a href="pricing_tables.html">Pricing Tables</a></li>-->
           </ul>
         </li>
-        <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
+        {% endif %}
+        <!--li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
               <li><a href="#level1_1">Level One</a>
               <li><a>Level One<span class="fa fa-chevron-down"></span></a>

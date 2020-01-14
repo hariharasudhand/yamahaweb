@@ -3,13 +3,14 @@
     <div class="nav toggle">
       <a id="menu_toggle"><i class="fa fa-bars"></i></a>
     </div>
-    <br>
-    <ul>
-      <span class="image pull-left"><img src="/static/images/yamaha_purple.svg" width="100"/></span>
+    <ul class="nav navbar-nav navbar-center" style="margin-top:20px">
+<!--      <span class="image pull-left">-->
+        <img src="/static/images/yamaha_purple.svg" width="100"/>
+<!--      </span>-->
     </ul>
 
 
-      <ul class="nav navbar-nav navbar-right" style="float:right;padding-right:10px">
+      <ul class="nav navbar-nav navbar-right">
       {% if user.is_authenticated %}
 
             <li class="">
