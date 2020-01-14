@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile, Departments, GroupPermission
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -57,3 +59,22 @@ class GroupPermissionForm(forms.ModelForm):
     class Meta:
         model = GroupPermission
         fields = ['module', 'group', 'create', 'view', 'update', 'delete']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('module', css_class='form-group col-md-6 mb-0'),
+                Column('group', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column('create', css_class='form-group col-md-3 mb-0'),
+                Column('view', css_class='form-group col-md-3 mb-0'),
+                Column('update', css_class='form-group col-md-3 mb-0'),
+                Column('delete', css_class='form-group col-md-3 mb-0'),
+                css_class='form-row'
+            ),
+            Submit('submit', 'Save')
+        )
