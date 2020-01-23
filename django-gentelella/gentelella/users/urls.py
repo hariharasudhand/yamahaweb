@@ -16,4 +16,5 @@ urlpatterns = [
     path('group_update/<int:id>', user_view.update_group, name='update_group'),
     path('grouppermission/', user_view.group_permission, name='grouppermission'),
     path('grouppermission_update/<int:id>', user_view.update_group_permission, name='update_group_permission'),
+    path('activate_user/', user_view.activate_user, name='activate_user'),
 ]

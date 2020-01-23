@@ -33,7 +33,8 @@
         <li><a><i class="fa fa-gears"></i> DCN Workflow <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             <li><a href="form.html">Search </a></li>
-           <li><a href="create_new.html">Create New DCN</a></li>
+            <li><a href="create_new.html">Create New DCN</a></li>
+            <li><a href="{% url 'dcn_create' %}">New DCN</a></li>
            <!-- <li><a href="form_validation.html">Form Validation</a></li>
             <li><a href="form_wizards.html">Form Wizard</a></li>-->
             <li><a href="form_upload.html">Form Upload</a></li>
@@ -91,6 +92,7 @@
         <li><a><i class="fa fa-windows"></i> Admin Settings <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu">
             <li><a href="{% url 'department' %}">Department</a></li>
+            <li><a href="{% url 'activate_user' %}">Activate User</a></li>
             <li><a href="{% url 'group' %}">Group</a></li>
             <li><a href="{% url 'grouppermission' %}">Group Permission</a></li>
 <!--            <li><a href="plain_page.html">Plain Page</a></li>-->

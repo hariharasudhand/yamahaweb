@@ -11,11 +11,20 @@ class Departments(models.Model):
     def __str__(self):
         return f'{self.department_name}'
 
+class ActivateUser(models.Model):
+    status = models.CharField(max_length=20, default='INACTIVE', null=False)
+    department = models.IntegerField(default=2)
+    group = models.IntegerField(default=2)
+
+    def __str__(self):
+        return f'{self.user.username} Profile'
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='male_default.png', upload_to='profile_pics')
     phone = models.CharField(max_length=10, blank=True, null=True, default=23213387)
-    department = models.IntegerField(default=2)
+    department = models.ForeignKey('Departments', on_delete=models.SET_NULL, null=True)
     group = models.IntegerField(default=2)
 
     def __str__(self):
@@ -48,7 +57,7 @@ class Group(models.Model):
 
 class GroupPermission(models.Model):
     module = models.CharField(max_length=100, default='Dcn Creation', null=False)
-    group = models.CharField(max_length=50, default='2')
+    group = models.ForeignKey('Group', on_delete=models.SET_NULL, null=True)
     create = models.BooleanField(default=False)
     view = models.BooleanField(default=False)
     update = models.BooleanField(default=False)
