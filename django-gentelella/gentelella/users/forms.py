@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, Departments, GroupPermission
+from .models import Profile, Departments, GroupPermission, Role_Permission, Module
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 from crispy_forms.bootstrap import InlineRadios
@@ -66,6 +66,12 @@ class DepartmentForm(forms.ModelForm):
         model = Departments
         fields = ['department_name']
 
+class ModuleForm(forms.ModelForm):
+    module_name = forms.CharField(label='Name', max_length=20, required=True)
+
+    class Meta:
+        model = Module
+        fields = ['module_name']
 
 class GroupForm(forms.ModelForm):
 
@@ -74,25 +80,20 @@ class GroupForm(forms.ModelForm):
         fields = ['name']
 
 
-class GroupPermissionForm(forms.ModelForm):
-    module = forms.ChoiceField(choices=get_modules(), required=True)
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)
-    create = forms.CheckboxInput(check_test=None)
-    view = forms.CheckboxInput(check_test=None)
-    update = forms.CheckboxInput(check_test=None)
-    delete = forms.CheckboxInput(check_test=None)
+class RolePermissionForm(forms.ModelForm):
+    module = forms.ModelChoiceField(queryset=Module.objects.all(), required=True)
 
     class Meta:
-        model = GroupPermission
-        fields = ['module', 'group', 'create', 'view', 'update', 'delete']
+        model = Role_Permission
+        fields = ['name', 'module', 'create', 'view', 'update', 'delete']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
+                Column('name', css_class='form-group col-md-6 mb-0'),
                 Column('module', css_class='form-group col-md-6 mb-0'),
-                Column('group', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
             Row(
@@ -100,6 +101,25 @@ class GroupPermissionForm(forms.ModelForm):
                 Column('view', css_class='form-group col-md-3 mb-0'),
                 Column('update', css_class='form-group col-md-3 mb-0'),
                 Column('delete', css_class='form-group col-md-3 mb-0'),
+                css_class='form-row'
+            ),
+            Submit('submit', 'Save')
+        )
+
+
+class GroupPermissionForm(forms.ModelForm):
+
+    class Meta:
+        model = GroupPermission
+        fields = ['name', 'role']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Row(
+                Column('name', css_class='form-group col-md-6 mb-0'),
+                Column('role', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
             Submit('submit', 'Save')

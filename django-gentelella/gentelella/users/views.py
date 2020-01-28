@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
 from .forms import (UserRegisterForm, UserUpdateForm, ProfileUpdateForm,
-                    GroupPermissionForm, GroupForm, DepartmentForm, UserActivateForm)
-from .models import Departments, GroupPermission
+                    GroupPermissionForm, GroupForm, DepartmentForm, UserActivateForm,
+                    RolePermissionForm, ModuleForm)
+from .models import Departments, GroupPermission, Role_Permission, Module
 
 # # Create your views here.
 def register(request):
@@ -60,26 +62,44 @@ def profile(request):
     }
     return render(request, 'users/profile.html', context)
 
-# #handling user group starts here
-def add_group(request):
-    return grp_helper(request, 0)
+# #handling user modules starts here
+def add_module(request):
+    return module_helper(request, 0)
 
-def update_group(request, id):
-    return grp_helper(request, id)
+def update_module(request, id):
+    return module_helper(request, id)
 
-def grp_helper(request, id):
-    model = Group.objects.all()
-    if id > 0:
-        group_obj = Group.objects.get(id=id)
-        form = GroupForm(request.POST or None, instance=group_obj)
+def cancel_module(request, id):
+    model = Module.objects.get(status='ACTIVE')
+    obj = Module.objects.get(id=id)
+    if request.method == 'POST':
+        form = ModuleForm(request.POST or None, instance=obj)
+        if form.is_valid():
+            form.save()
+            return redirect('module-delete')
     else:
-        form = GroupForm(request.POST or None)
+        form = ModuleForm(request.POST or None)
+    context = {
+        'model':model,
+        'form': form
+    }
+    return render(request, "users/module.html", context)
 
-    str_redirect = 'group'
-    str_render = 'users/group.html'
-    str_msg = 'Group'
-    return helper(request, model, form, str_redirect, str_render, str_msg)
-#handling user group ends here
+
+def module_helper(request, id):
+    model = Module.objects.all()
+    if id > 0:
+        obj = Module.objects.get(id=id)
+        form = ModuleForm(request.POST or None, instance=obj)
+        is_update = True
+    else:
+        form = ModuleForm(request.POST or None)
+        is_update = False
+
+    str_redirect = 'module'
+    str_render = 'users/module.html'
+    str_msg = 'Module'
+    return helper(request, model, form, str_redirect, str_render, str_msg, is_update)
 
 # this is to create new department
 def departments(request):
@@ -95,29 +115,40 @@ def dept_helper(request, id):
     if id > 0:
         department_obj = Departments.objects.get(id=id)
         form = DepartmentForm(request.POST or None, instance=department_obj)
+        is_update = True
     else:
-        print('control is here....', request.POST)
         form = DepartmentForm(request.POST or None)
+        is_update = False
 
     str_redirect = 'department'
     str_render = 'users/department.html'
     str_msg = 'Department'
-    return helper(request, model, form, str_redirect, str_render, str_msg)
+    return helper(request, model, form, str_redirect, str_render, str_msg, is_update)
+
+def role_permission(request):
+    return role_permission_helper(request, 0)
+
+def update_role_permission(request, id):
+    return role_permission_helper(request, id)
+
+def role_permission_helper(request, id):
+    model = Role_Permission.objects.all()
+
+    if id > 0:
+        role_obj = Role_Permission.objects.get(id=id)
+        form = RolePermissionForm(request.POST or None, instance=role_obj)
+        is_update = True
+    else:
+        form = RolePermissionForm(request.POST or None)
+        is_update = False
+
+    str_redirect = 'rolepermission'
+    str_render = 'users/rolepermission.html'
+    str_msg = 'Role Permission'
+    return helper(request, model, form, str_redirect, str_render, str_msg, is_update)
 
 def group_permission(request):
-    # model = GroupPermission().objects.all()
-    if request.method == 'POST':
-        form = GroupPermissionForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-            return redirect('grouppermission')
-    else:
-        form = GroupPermissionForm()
-    context = {
-        'form': form,
-        'model': ''
-    }
-    return render(request, 'users/grouppermission.html', context)
+    return grpPermission_helper(request, 0)
 
 def update_group_permission(request, id):
     return grpPermission_helper(request, id)
@@ -128,15 +159,17 @@ def grpPermission_helper(request, id):
     if id > 0:
         group_obj = GroupPermission.objects.get(id=id)
         form = GroupPermissionForm(request.POST or None, instance=group_obj)
+        is_update = True
     else:
         form = GroupPermissionForm(request.POST or None)
+        is_update = False
 
     str_redirect = 'grouppermission'
     str_render = 'users/grouppermission.html'
     str_msg = 'Group Permission'
-    return helper(request, model, form, str_redirect, str_render, str_msg)
+    return helper(request, model, form, str_redirect, str_render, str_msg, is_update)
 
-def helper(request, model, form, str_redirect, str_render, str_msg):
+def helper(request, model, form, str_redirect, str_render, str_msg, is_update):
     if form.is_valid():
         form.save()
         messages.success(request, f'{str_msg} data is updated')
@@ -144,6 +177,7 @@ def helper(request, model, form, str_redirect, str_render, str_msg):
 
     context = {
         'form': form,
-        'model': model
+        'model': model,
+        'is_update': is_update
     }
     return render(request, str_render, context)

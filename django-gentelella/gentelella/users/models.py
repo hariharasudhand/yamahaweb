@@ -11,6 +11,15 @@ class Departments(models.Model):
     def __str__(self):
         return f'{self.department_name}'
 
+class Module(models.Model):
+    module_name = models.CharField(max_length=100)
+    status = models.CharField(max_length=20, default='ACTIVE')
+    date_added = models.DateField(auto_now_add=True)
+    date_updated = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.module_name}'
+
 class ActivateUser(models.Model):
     status = models.CharField(max_length=20, default='INACTIVE', null=False)
     department = models.IntegerField(default=2)
@@ -49,19 +58,23 @@ def create_profile(sender, instance, created, **kwargs):
 def save_profile(sender, instance, **kwargs):
     instance.profile.save()
 
-class Group(models.Model):
-    group = Group()
-
-    def __str__(self):
-        return self.group.name
-
-class GroupPermission(models.Model):
-    module = models.CharField(max_length=100, default='Dcn Creation', null=False)
-    group = models.ForeignKey('Group', on_delete=models.SET_NULL, null=True)
+class Role_Permission(models.Model):
+    name = models.CharField(max_length=50, default='')
     create = models.BooleanField(default=False)
-    view = models.BooleanField(default=False)
+    view = models.BooleanField(default=True)
     update = models.BooleanField(default=False)
     delete = models.BooleanField(default=False)
+    date_added = models.DateField(auto_now_add=True)
+    date_updated = models.DateField(auto_now=True)
+    module = models.ForeignKey(Module, on_delete=models.SET_NULL, null=True)
+    status = models.CharField(max_length=20, default='ACTIVE')
+
+    def __str__(self):
+        return self.name
+
+class GroupPermission(models.Model):
+    name = models.CharField(max_length=25, default='')
+    role = models.ForeignKey(Role_Permission, on_delete=models.SET_NULL, null=True, default='---')
 
     def __str__(self):
         return self.groupname
