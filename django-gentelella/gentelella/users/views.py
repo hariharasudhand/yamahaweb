@@ -4,17 +4,15 @@ from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
 from .forms import (UserRegisterForm, UserUpdateForm, ProfileUpdateForm,
-                    GroupPermissionForm, GroupForm, DepartmentForm, UserActivateForm,
+                    GroupPermissionForm, DepartmentForm, UserActivateForm,
                     RolePermissionForm, ModuleForm)
 from .models import Departments, GroupPermission, Role_Permission, Module
 
-# # Create your views here.
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            # username = form.cleaned_data.get('username')
             messages.success(request, f'Your Account is created, login with your credentials now!')
             return redirect('login')
     else :
@@ -22,24 +20,26 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 def activate_user(request):
-    if request.method == 'POST':
-        prof = request.user.profile
-        a_form = UserActivateForm(request.POST, instance=prof)
+    return activate_helper(request, 0)
 
-        if a_form.is_valid():
-            prof.set_status = request.get('status')
-            a_form.save()
-            messages.success(request, f'Your profile is updated')
-            return redirect('activate_user')
+def activate_user_update(request, id):
+    return activate_helper(request, id)
+
+def activate_helper(request, id):
+    model = User.objects.all()
+    if id > 0:
+        obj = User.objects.get(id=id)
+        form = UserActivateForm(request.POST or None, instance=obj)
+        is_update = True
     else:
-        a_form = UserActivateForm(instance=request.user.profile)
+        form = UserActivateForm(request.POST or None)
+        obj = None
+        is_update = False
 
-    user = User.objects.all()
-    context = {
-        'p_form': a_form,
-        'model': user
-    }
-    return render(request, 'users/activate.html', context)
+    str_redirect = 'activate_user'
+    str_render = 'users/activate.html'
+    str_msg = 'User Activation'
+    return helper(request, model, form, str_redirect, str_render, str_msg, is_update, obj)
 
 @login_required
 def profile(request):
@@ -95,11 +95,12 @@ def module_helper(request, id):
     else:
         form = ModuleForm(request.POST or None)
         is_update = False
+        obj = None
 
     str_redirect = 'module'
     str_render = 'users/module.html'
     str_msg = 'Module'
-    return helper(request, model, form, str_redirect, str_render, str_msg, is_update)
+    return helper(request, model, form, str_redirect, str_render, str_msg, is_update, obj)
 
 # this is to create new department
 def departments(request):
@@ -113,17 +114,18 @@ def update_dept(request, id):
 def dept_helper(request, id):
     model = Departments.objects.all()
     if id > 0:
-        department_obj = Departments.objects.get(id=id)
-        form = DepartmentForm(request.POST or None, instance=department_obj)
+        obj = Departments.objects.get(id=id)
+        form = DepartmentForm(request.POST or None, instance=obj)
         is_update = True
     else:
         form = DepartmentForm(request.POST or None)
         is_update = False
+        obj = None
 
     str_redirect = 'department'
     str_render = 'users/department.html'
     str_msg = 'Department'
-    return helper(request, model, form, str_redirect, str_render, str_msg, is_update)
+    return helper(request, model, form, str_redirect, str_render, str_msg, is_update, obj)
 
 def role_permission(request):
     return role_permission_helper(request, 0)
@@ -135,17 +137,18 @@ def role_permission_helper(request, id):
     model = Role_Permission.objects.all()
 
     if id > 0:
-        role_obj = Role_Permission.objects.get(id=id)
-        form = RolePermissionForm(request.POST or None, instance=role_obj)
+        obj = Role_Permission.objects.get(id=id)
+        form = RolePermissionForm(request.POST or None, instance=obj)
         is_update = True
     else:
         form = RolePermissionForm(request.POST or None)
         is_update = False
+        obj = None
 
     str_redirect = 'rolepermission'
     str_render = 'users/rolepermission.html'
     str_msg = 'Role Permission'
-    return helper(request, model, form, str_redirect, str_render, str_msg, is_update)
+    return helper(request, model, form, str_redirect, str_render, str_msg, is_update, obj)
 
 def group_permission(request):
     return grpPermission_helper(request, 0)
@@ -157,19 +160,20 @@ def grpPermission_helper(request, id):
     model = GroupPermission.objects.all()
 
     if id > 0:
-        group_obj = GroupPermission.objects.get(id=id)
-        form = GroupPermissionForm(request.POST or None, instance=group_obj)
+        obj = GroupPermission.objects.get(id=id)
+        form = GroupPermissionForm(request.POST or None, instance=obj)
         is_update = True
     else:
         form = GroupPermissionForm(request.POST or None)
         is_update = False
+        obj = None
 
     str_redirect = 'grouppermission'
     str_render = 'users/grouppermission.html'
     str_msg = 'Group Permission'
-    return helper(request, model, form, str_redirect, str_render, str_msg, is_update)
+    return helper(request, model, form, str_redirect, str_render, str_msg, is_update, obj)
 
-def helper(request, model, form, str_redirect, str_render, str_msg, is_update):
+def helper(request, model, form, str_redirect, str_render, str_msg, is_update, obj):
     if form.is_valid():
         form.save()
         messages.success(request, f'{str_msg} data is updated')
@@ -178,6 +182,7 @@ def helper(request, model, form, str_redirect, str_render, str_msg, is_update):
     context = {
         'form': form,
         'model': model,
-        'is_update': is_update
+        'is_update': is_update,
+        'obj': obj
     }
     return render(request, str_render, context)

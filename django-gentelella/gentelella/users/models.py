@@ -20,15 +20,6 @@ class Module(models.Model):
     def __str__(self):
         return f'{self.module_name}'
 
-class ActivateUser(models.Model):
-    status = models.CharField(max_length=20, default='INACTIVE', null=False)
-    department = models.IntegerField(default=2)
-    group = models.IntegerField(default=2)
-
-    def __str__(self):
-        return f'{self.user.username} Profile'
-
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='male_default.png', upload_to='profile_pics')
@@ -74,7 +65,14 @@ class Role_Permission(models.Model):
 
 class GroupPermission(models.Model):
     name = models.CharField(max_length=25, default='')
-    role = models.ForeignKey(Role_Permission, on_delete=models.SET_NULL, null=True, default='---')
+    role = models.ForeignKey(Role_Permission, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.groupname
+        return self.name
+
+class UserStatus(User):
+    status = models.CharField(max_length=20, default='ACTIVE', null=False)
+    group = models.ForeignKey(GroupPermission, on_delete=models.SET_NULL, null=True)
+
+    def __init__(self):
+        proxy = True

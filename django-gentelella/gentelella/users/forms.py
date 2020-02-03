@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, Departments, GroupPermission, Role_Permission, Module
+from .models import Profile, Departments, GroupPermission, Role_Permission, Module, UserStatus
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 from crispy_forms.bootstrap import InlineRadios
@@ -35,29 +35,11 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['phone', 'department', 'image']
 
 class UserActivateForm(forms.ModelForm):
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)
-    module = forms.ChoiceField(choices=get_modules(), required=True)
-    CHOICES = [('ACTIVATE', 'Activate'), ('INACTIVE', 'InActive')]
-    status = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
 
     class Meta:
-        model = Profile
-        fields = ['module', 'group', 'status']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            Row(
-                Column('module', css_class='form-group col-md-6 mb-0'),
-                Column('group', css_class='form-group col-md-6 mb-0'),
-                css_class='form-row'
-            ),
-            Row(
-                InlineRadios('status'),
-                css_class='form-row'
-            )
-        )
+        model = UserStatus
+        fields = ['group', 'status']
+        widgets = {'status': forms.HiddenInput()}
 
 class DepartmentForm(forms.ModelForm):
     department_name = forms.CharField(max_length=100)

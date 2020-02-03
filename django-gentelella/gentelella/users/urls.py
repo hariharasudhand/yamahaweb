@@ -24,4 +24,5 @@ urlpatterns = [
     path('rolepermission/', user_view.role_permission, name='rolepermission'),
     path('rolepermission_update/<int:id>', user_view.update_role_permission, name='update_role_permission'),
     path('activate_user/', user_view.activate_user, name='activate_user'),
+    path('activate_user_update/<int:id>', user_view.activate_user_update, name='activate_user_update'),
 ]
