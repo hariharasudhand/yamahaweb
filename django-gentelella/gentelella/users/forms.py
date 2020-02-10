@@ -41,6 +41,13 @@ class UserActivateForm(forms.ModelForm):
         fields = ['group', 'status']
         widgets = {'status': forms.HiddenInput()}
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.instance:  # Editing and existing instance
+            self.fields['group'].queryset = GroupPermission.objects.filter(status__iexact='ACTIVE')
+
+
 class DepartmentForm(forms.ModelForm):
     department_name = forms.CharField(max_length=100)
 
@@ -70,6 +77,10 @@ class RolePermissionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        if self.instance:  # Editing and existing instance
+            self.fields['module'].queryset = Module.objects.filter(status__iexact='ACTIVE')
+
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(
@@ -96,6 +107,11 @@ class GroupPermissionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        if self.instance:  # Editing and existing instance
+            self.fields['role'].queryset = Role_Permission.objects.filter(status__iexact='ACTIVE')
+
+
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Row(

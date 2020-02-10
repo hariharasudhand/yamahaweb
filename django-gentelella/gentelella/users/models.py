@@ -35,12 +35,6 @@ class Role_Permission(models.Model):
     def __str__(self):
         return self.name
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "module":
-            kwargs["queryset"] = Module.objects.filter(status=['ACTIVE'])
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-
 class GroupPermission(models.Model):
     name = models.CharField(max_length=25, default='')
     role = models.ForeignKey(Role_Permission, on_delete=models.SET_NULL, null=True)
