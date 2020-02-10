@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, Departments, GroupPermission, Role_Permission, Module, UserStatus
+from .models import Profile, Departments, GroupPermission, Role_Permission, Module
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 from crispy_forms.bootstrap import InlineRadios
@@ -37,7 +37,7 @@ class ProfileUpdateForm(forms.ModelForm):
 class UserActivateForm(forms.ModelForm):
 
     class Meta:
-        model = UserStatus
+        model = Profile
         fields = ['group', 'status']
         widgets = {'status': forms.HiddenInput()}
 
@@ -49,7 +49,6 @@ class DepartmentForm(forms.ModelForm):
         fields = ['department_name']
 
 class ModuleForm(forms.ModelForm):
-    module_name = forms.CharField(label='Name', max_length=20, required=True)
 
     class Meta:
         model = Module

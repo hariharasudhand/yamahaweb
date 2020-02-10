@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import (UserRegisterForm, UserUpdateForm, ProfileUpdateForm,
                     GroupPermissionForm, DepartmentForm, UserActivateForm,
@@ -70,24 +69,17 @@ def update_module(request, id):
     return module_helper(request, id)
 
 def cancel_module(request, id):
-    model = Module.objects.get(status='ACTIVE')
-    obj = Module.objects.get(id=id)
-    if request.method == 'POST':
-        form = ModuleForm(request.POST or None, instance=obj)
-        if form.is_valid():
-            form.save()
-            return redirect('module-delete')
-    else:
+    model = Module.objects.filter(status='ACTIVE')
+    if id:
+        obj = Module.objects.get(id=id)
         form = ModuleForm(request.POST or None)
-    context = {
-        'model':model,
-        'form': form
-    }
-    return render(request, "users/module.html", context)
+
+    str_render = "users/module.html"
+    return cancel_helper(request, id, model, form, obj, str_render)
 
 
 def module_helper(request, id):
-    model = Module.objects.all()
+    model = Module.objects.filter(status='ACTIVE')
     if id > 0:
         obj = Module.objects.get(id=id)
         form = ModuleForm(request.POST or None, instance=obj)
@@ -110,9 +102,18 @@ def departments(request):
 def update_dept(request, id):
     return dept_helper(request, id)
 
+def cancel_dept(request, id):
+    model = Departments.objects.filter(status='ACTIVE')
+    if id:
+        obj = Departments.objects.get(id=id)
+        form = DepartmentForm(request.POST or None)
+
+    str_render = "users/department.html"
+    return cancel_helper(request, id, model, form, obj, str_render)
+
 # this helper function helps to handle department
 def dept_helper(request, id):
-    model = Departments.objects.all()
+    model = Departments.objects.filter(status='ACTIVE')
     if id > 0:
         obj = Departments.objects.get(id=id)
         form = DepartmentForm(request.POST or None, instance=obj)
@@ -130,11 +131,20 @@ def dept_helper(request, id):
 def role_permission(request):
     return role_permission_helper(request, 0)
 
+def cancel_role_perm(request, id):
+    model = Role_Permission.objects.filter(status='ACTIVE')
+    if id:
+        obj = Role_Permission.objects.get(id=id)
+        form = RolePermissionForm(request.POST or None)
+
+    str_render = "users/rolepermission.html"
+    return cancel_helper(request, id, model, form, obj, str_render)
+
 def update_role_permission(request, id):
     return role_permission_helper(request, id)
 
 def role_permission_helper(request, id):
-    model = Role_Permission.objects.all()
+    model = Role_Permission.objects.filter(status='ACTIVE')
 
     if id > 0:
         obj = Role_Permission.objects.get(id=id)
@@ -156,8 +166,17 @@ def group_permission(request):
 def update_group_permission(request, id):
     return grpPermission_helper(request, id)
 
+def cancel_grp_perm(request, id):
+    model = GroupPermission.objects.filter(status='ACTIVE')
+    if id:
+        obj = GroupPermission.objects.get(id=id)
+        form = GroupPermissionForm(request.POST or None)
+
+    str_render = "users/grouppermission.html"
+    return cancel_helper(request, id, model, form, obj, str_render)
+
 def grpPermission_helper(request, id):
-    model = GroupPermission.objects.all()
+    model = GroupPermission.objects.filter(status='ACTIVE')
 
     if id > 0:
         obj = GroupPermission.objects.get(id=id)
@@ -175,6 +194,10 @@ def grpPermission_helper(request, id):
 
 def helper(request, model, form, str_redirect, str_render, str_msg, is_update, obj):
     if form.is_valid():
+        if str_redirect == 'activate_user':
+            obj.profile.status = 'ACTIVE'
+            obj.profile.group = GroupPermission.objects.get(id=request.POST['group'])
+
         form.save()
         messages.success(request, f'{str_msg} data is updated')
         return redirect(str_redirect)
@@ -184,5 +207,16 @@ def helper(request, model, form, str_redirect, str_render, str_msg, is_update, o
         'model': model,
         'is_update': is_update,
         'obj': obj
+    }
+    return render(request, str_render, context)
+
+def cancel_helper(request, id, model, form, obj, str_render):
+    if id:
+        obj.status = 'INACTIVE'
+        obj.save()
+
+    context = {
+        'model': model,
+        'form': form
     }
     return render(request, str_render, context)

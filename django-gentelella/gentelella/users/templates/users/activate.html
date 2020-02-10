@@ -82,12 +82,10 @@
               <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action">
                 <thead>
                   <tr>
-                    <th>
-  			 <th><input type="checkbox" id="check-all" class="flat"></th>
-  		  </th>
                     <th>Name</th>
                     <th>User Name</th>
                     <th>Email</th>
+                    <th>Group</th>
                     <th>Status</th>
                     <th>Activate</th>
                   </tr>
@@ -97,13 +95,11 @@
                 {% if model %}
                     {% for mod in model%}
                     <tr>
-                        <td>
-                         <th><input type="checkbox" id="check-all" class="flat"></th>
-                        </td>
                         <td>{{mod.first_name}}</td>
                         <td>{{mod.username}}</td>
                         <td>{{mod.email}}</td>
-                        <td>{{mod.status}}</td>
+                        <td>{{mod.profile.group}}</td>
+                        <td>{{mod.profile.status}}</td>
                         <td>
                             <a href="{% url 'activate_user_update' mod.id %}">
                             <i class="fa fa-edit"></i></a></td>

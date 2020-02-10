@@ -52,7 +52,6 @@
               <table id="datatable" class="table table-striped table-bordered">
                 <thead>
                   <tr>
-                    <th>Id</th>
                     <th>Role Name</th>
                     <th>Edit</th>
                     <th>Close</th>
@@ -63,7 +62,6 @@
                     {% for mod in model %}
                         <input type="hidden" name="id" value="{{ mod.id }}"
                       <tr>
-                        <td>{{mod.id}}</td>
                         <td>{{mod.name}}</td>
                         <td>
                             <a href="{% url 'update_role_permission' mod.id %}">
