@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -25,7 +26,17 @@ def activate_user_update(request, id):
     return activate_helper(request, id)
 
 def activate_helper(request, id):
-    model = User.objects.all()
+    user_list = User.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(user_list, 3)
+
+    try:
+        model = paginator.page(page)
+    except PageNotAnInteger:
+        model = paginator.page(1)
+    except EmptyPage:
+        model = paginator.page(paginator.num_pages)
+
     if id > 0:
         obj = User.objects.get(id=id)
         form = UserActivateForm(request.POST or None, instance=obj)
@@ -206,7 +217,7 @@ def helper(request, model, form, str_redirect, str_render, str_msg, is_update, o
         'form': form,
         'model': model,
         'is_update': is_update,
-        'obj': obj
+        'obj': obj,
     }
     return render(request, str_render, context)
 
