@@ -1,0 +1,83 @@
+{% extends "app/base_site.html" %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>DCN Parts</h2>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <br />
+      <form action="{% url 'dcn_parts' %}" method="post" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <input name="dcn_no_id" type="hidden" value="{{ info.id }}">
+                <div class="form-group">
+                  <label class="control-label col-md-3"><h3>Effective Type</h3></label>
+                </div>
+
+                <div class="form-group">
+                  <div class="checkbox col-md-6">
+                    <label><input type="checkbox" value="">From TP</label>
+                    <label><input type="checkbox" value="">From MP Start</label>
+                    <label><input type="checkbox" value="">Only for TP</label>
+                    <label><input type="checkbox" value="">Inprogress of MP</label>
+                  </div>
+                </div>
+                <div class="container">
+                  <table id="dynRows" class="table table-bordered">
+                      <tr>
+                        <th>Parent Part No</th>
+                        <th>Part No Old</th>
+                        <th>Part No New</th>
+                        <th>part Description Old</th>
+                        <th>part Description New</th>
+                        <th>Usage Qty Old</th>
+                        <th>Usage Qty New</th>
+                        <th>On Hand Stock</th>
+                        <th>Open PO</th>
+                        <th>Total Stock</th>
+                        <th>Remarks</th>
+                        <th>Impl Date</th>
+                        <th>Impl Serial No</th>
+                      </tr>
+                      <tr>
+                        <td><input type="text" style="width:100%;" name="parent_part_no" value="a"></td>
+                        <td><input type="text" style="width:100%;" name="part_no_old" value="b"></td>
+                        <td><input type="text" style="width:100%;" name="part_no_new" value="c"></td>
+                        <td><input type="text" style="width:100%;" name="part_description_old" value="d"></td>
+                        <td><input type="text" style="width:100%;" name="part_description_new" value="e"></td>
+                        <td><input type="text" style="width:100%;" name="usage_qty_old" value="f"></td>
+                        <td><input type="text" style="width:100%;" name="usage_qty_new" value="g"></td>
+                        <td><input type="text" style="width:100%;" name="stock_details_on_hand" value="h"></td>
+                        <td><input type="text" style="width:100%;" name="stock_details_open_po" value="i"></td>
+                        <td><input type="text" style="width:100%;" name="stock_details_total_stock" value="j"></td>
+                        <td><input type="text" style="width:100%;" name="remarks" value="k"></td>
+                        <td><input type="date" style="width:100%;" name="impl_date" value="2020-02-17"></td>
+                        <td><input type="text" style="width:100%;" name="impl_serial_no" value="l"></td>
+                        <td><button type="button" id="minusrows" name="minusrows"><span class="glyphicon glyphicon-minus"></span></button></td>
+                      </tr>
+                  </table>
+                </div>
+                <div>
+                  <div class="col-md-12 text-right">
+                    <button type="button" id="addrows" name="addrows"><span class="glyphicon glyphicon-plus"></span></button>
+                  </div>
+                </div>
+
+                 <div class="ln_solid"></div>
+                <div class="form-group">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                    <button class="btn btn-primary" type="button">Cancel</button>
+                    <button class="btn btn-primary" type="reset">Reset</button>
+                    <button type="submit" class="btn btn-success">Next</button>
+                  </div>
+                </div>
+
+              </form>
+            </div></div></div></div></div></div>
+{% endblock content %}

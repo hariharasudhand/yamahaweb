@@ -1,0 +1,86 @@
+{% extends "app/base_site.html" %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    <div class="">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Create New </h2>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <br />
+      <form action="{% url 'add_create' %}" method="post" name="dcn_form" id="dcn_form" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label class="control-label col-md-2" for="dcn_no">DCN No. <span class="required">*</span>
+                  </label>
+                  <div class="col-md-3">
+                    <input type="text" id="dcn_no" name="dcn_no" required="required" class="form-control col-md-7">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-2" >SAP Change No. <span class="required">*</span>
+                  </label>
+                  <div class="col-md-3">
+                    <input type="text" id="sap_change_no" name="sap_change_no" required="required" class="form-control col-md-7 col-xs-12">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-2" >Segment <span class="required">*</span>
+                  </label>
+                  <div class="col-md-3">
+                    <input type="text" id="segment" name="segment" required="required" class="form-control col-md-7 col-xs-12">
+                  </div>
+                  <label class="control-label col-md-3" for="dcn_received_date">DCN Received Date <span class="required">*</span>
+                  </label>
+                  <div class="col-md-3">
+                    <input type="date" id="dcn_received_date" name="dcn_received_date" required="required" class="form-control col-md-7">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-2 col-sm-3 col-xs-12" for="dcn_model">Model <span class="required">*</span>
+                  </label>
+                  <div class="col-md-3">
+                    <input type="text" id="dcn_model" required="required" name="dcn_model" class="form-control col-md-7 col-xs-12">
+                  </div>
+                  <label class="control-label col-md-3" for="execute_type">Execute Type <span class="required">*</span>
+                  </label>
+                  <div class="col-md-3">
+                    <input type="text" id="execute_type" name="execute_type" required="required" class="form-control col-md-7">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-md-2">DCN Type <span class="required">*</span>
+                  </label>
+                  <div class="checkbox col-md-3">
+                    <label><input type="radio" name="dcn_type" value="YOJ">YOJ</label>
+                    <label><input type="radio" name="dcn_type" value="INT">INT</label>
+                  </div>
+                  <label class="control-label col-md-3" for="dcn_title">DCN Title <span class="required">*</span>
+                  </label>
+                  <div class="col-md-3">
+                    <input type="text" id="dcn_title" name="dcn_title" required="required" class="form-control col-md-7">
+                  </div>
+                </div>
+
+
+          <div id="document" class="form-group"> <label for="documents">
+                PDF<div class="">
+                <input type="file" name="documents" class="clearablefileinput form-control" accept="application/pdf,.doc,.docx" id="documents">
+          </div></label> </div>
+
+                <br>
+                <div class="form-group">
+                  <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                    <button class="btn btn-primary" type="button">Cancel</button>
+                    <button class="btn btn-primary" type="reset">Reset</button>
+                    <button type="submit" class="btn btn-success" form="dcn_form">Next</button>
+                  </div>
+                </div>
+
+              </form>
+            </div></div></div></div></div></div>
+{% endblock content %}

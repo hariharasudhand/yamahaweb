@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Profile, Departments, GroupPermission, Role_Permission, Module
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
-from crispy_forms.bootstrap import InlineRadios
 
 def get_modules():
     return (('User', 'User'), ('Dcn Creation', 'Dcn Creation'),
